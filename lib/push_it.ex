@@ -9,6 +9,9 @@ defmodule PushIt do
     children = [
       # Start the endpoint when the application starts
       worker(PushIt.Endpoint, []),
+      worker(PushIt.Repo, []),
+      worker(PushIt.Notifier, []),
+      worker(PushIt.Notifier.Supervisor, []),
 
       # Here you could define other workers and supervisors as children
       # worker(PushIt.Worker, [arg1, arg2, arg3]),

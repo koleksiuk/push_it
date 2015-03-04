@@ -5,6 +5,12 @@ config :push_it, PushIt.Endpoint,
   debug_errors: true,
   cache_static_lookup: false
 
+config :push_it, PushIt.Repo,
+  database: "push_it",
+  username: "konole",
+  password: "",
+  hostname: "localhost"
+
 # Enables code reloading for development
 config :phoenix, :code_reloader, true
 
