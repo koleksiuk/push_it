@@ -17,7 +17,11 @@ defmodule PushIt.Notifier.Android do
   end
 
   def handle_cast({ :push, push }, state) do
-    PushIt.Client.GCM.push(push)
+    worker = :poolboy.checkout(:gcm_client)
+
+    PushIt.Client.GCM.push(worker, push)
+
+    :poolboy.checkin(:gcm_client, worker)
 
     { :noreply, state }
   end

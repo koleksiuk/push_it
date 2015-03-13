@@ -28,7 +28,7 @@ defmodule PushIt.Notifier do
       { :ok, handler } ->
         handler.push(push)
         { :reply, :ok, state }
-      error_message = { :error, message } ->
+      error_message = { :error, _message } ->
         { :reply, error_message, state }
     end
   end
@@ -38,7 +38,7 @@ defmodule PushIt.Notifier do
       :apns    -> { :ok, nil }
       :android -> { :ok, PushIt.Notifier.Android }
       :windows -> { :ok, nil }
-      _         -> { :error, :unsupported_platform }
+      _        -> { :error, :unsupported_platform }
     end
   end
 end

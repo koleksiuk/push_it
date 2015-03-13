@@ -11,7 +11,7 @@ config :push_it, PushIt.Repo,
   password: "",
   hostname: "localhost"
 
-config :push_it_gcm, url: "http://localhost:7333"
+config :push_it_gcm, url: "http://localhost:7333", pool_count: 5
 
 # Enables code reloading for development
 config :phoenix, :code_reloader, true

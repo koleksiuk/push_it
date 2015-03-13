@@ -23,11 +23,12 @@ defmodule PushIt.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-      {:phoenix,  "~> 0.8.0"},
       {:cowboy,   "~> 1.0"},
-      {:postgrex, ">= 0.0.0"},
       {:ecto,     "~> 0.7"},
-      {:json,      "~> 0.3.0"}
+      {:json,     "~> 0.3.0"},
+      {:phoenix,  "~> 0.8.0"},
+      {:poolboy,  "~> 1.4.1"},
+      {:postgrex, ">= 0.0.0"},
     ]
   end
 end

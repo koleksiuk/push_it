@@ -3,7 +3,7 @@ defmodule PushIt.Client.GCMTest do
 
   test "it works" do
     { :ok, _pid } = GenServer.start_link(
-      PushIt.Client.GCM, nil, name: :gcm_client
+      PushIt.Client.GCM, nil, []
     )
   end
 end

@@ -6,10 +6,19 @@ defmodule PushIt.Client.Supervisor do
   end
 
   def init(:ok) do
+    gcm_pool_count = Application.get_env(:push_it_gcm, :pool_count, 5)
+
+    pool_options = [
+      name:          { :local, :gcm_client },
+      worker_module: PushIt.Client.GCM,
+      size:          gcm_pool_count,
+      max_overflow:  gcm_pool_count * 2
+    ]
+
     children = [
-      worker(PushIt.Client.GCM, [
+      :poolboy.child_spec(:gcm_client, pool_options,
         %PushIt.Client.GCMConfig { url: Application.get_env(:push_it_gcm, :url) }
-      ]),
+      ),
       worker(PushIt.Client.GCMResponse, [])
     ]
 

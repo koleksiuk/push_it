@@ -4,11 +4,11 @@ defmodule PushIt.Client.GCM do
 
   # External
   def start_link(gcm_config \\ %PushIt.Client.GCMConfig{}) do
-    { :ok, _pid } = GenServer.start_link(__MODULE__, gcm_config, name: __MODULE__)
+    { :ok, _pid } = GenServer.start_link(__MODULE__, gcm_config, [])
   end
 
-  def push(push) do
-    GenServer.cast(__MODULE__, { :push, push })
+  def push(pid, push) do
+    GenServer.cast(pid, { :push, push })
   end
 
   # Internal
