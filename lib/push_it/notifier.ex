@@ -35,9 +35,9 @@ defmodule PushIt.Notifier do
 
   defp fetch_push_handler(platform) do
     case platform do
-      "apns"    -> { :ok, nil }
-      "android" -> { :ok, PushIt.Notifier.Android }
-      "windows" -> { :ok, nil }
+      :apns    -> { :ok, nil }
+      :android -> { :ok, PushIt.Notifier.Android }
+      :windows -> { :ok, nil }
       _         -> { :error, :unsupported_platform }
     end
   end

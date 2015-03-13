@@ -17,7 +17,7 @@ defmodule PushIt.Notifier.Android do
   end
 
   def handle_cast({ :push, push }, state) do
-    Logger.info(push)
+    PushIt.Client.GCM.push(push)
 
     { :noreply, state }
   end

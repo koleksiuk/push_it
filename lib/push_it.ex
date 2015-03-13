@@ -12,6 +12,7 @@ defmodule PushIt do
       worker(PushIt.Repo, []),
       worker(PushIt.Notifier, []),
       worker(PushIt.Notifier.Supervisor, []),
+      worker(PushIt.Client.Supervisor, []),
 
       # Here you could define other workers and supervisors as children
       # worker(PushIt.Worker, [arg1, arg2, arg3]),
