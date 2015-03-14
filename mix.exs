@@ -14,8 +14,17 @@ defmodule PushIt.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [mod: {PushIt, []},
-     applications: [:phoenix, :cowboy, :logger, :postgrex, :ecto]]
+    [
+      mod: {PushIt, []},
+      applications: [
+        :cowboy,
+        :ecto,
+        :ibrowse,
+        :logger,
+        :phoenix,
+        :postgrex,
+      ]
+   ]
   end
 
   # Specifies your project dependencies
@@ -23,12 +32,14 @@ defmodule PushIt.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-      {:cowboy,   "~> 1.0"},
-      {:ecto,     "~> 0.7"},
-      {:json,     "~> 0.3.0"},
-      {:phoenix,  "~> 0.8.0"},
-      {:poolboy,  "~> 1.4.1"},
-      {:postgrex, ">= 0.0.0"},
+      {:cowboy,    "~> 1.0"},
+      {:ecto,      "~> 0.7"},
+      {:httpotion, "~> 2.0.0"},
+      {:ibrowse,   github: "cmullaparthi/ibrowse", tag: "v4.1.1"},
+      {:json,      "~> 0.3.0"},
+      {:phoenix,   "~> 0.8.0"},
+      {:poolboy,   "~> 1.4.1"},
+      {:postgrex,  ">= 0.0.0"},
     ]
   end
 end

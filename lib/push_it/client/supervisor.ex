@@ -17,9 +17,9 @@ defmodule PushIt.Client.Supervisor do
 
     children = [
       :poolboy.child_spec(:gcm_client, pool_options,
-        %PushIt.Client.GCMConfig { url: Application.get_env(:push_it_gcm, :url) }
+        %PushIt.Client.GCM.Config { url: Application.get_env(:push_it_gcm, :url) }
       ),
-      worker(PushIt.Client.GCMResponse, [])
+      worker(PushIt.Client.GCM.Response, [])
     ]
 
     supervise(children, strategy: :one_for_one)

@@ -1,4 +1,4 @@
-defmodule PushIt.Client.GCMResponse do
+defmodule PushIt.Client.GCM.Response do
   require Logger
   use GenServer
 
@@ -8,7 +8,7 @@ defmodule PushIt.Client.GCMResponse do
   end
 
   def handle_response(http_response) do
-    GenServer.cast(__MODULE__, { :handle_response, http_response.status, http_response.body })
+    GenServer.cast(__MODULE__, { :handle_response, http_response.status_code, http_response.body })
   end
 
   # Internal

@@ -1,9 +1,11 @@
 defmodule PushIt.Client.GCM do
+  defstruct struct: nil, url: nil
+
   require Logger
   use GenServer
 
   # External
-  def start_link(gcm_config \\ %PushIt.Client.GCMConfig{}) do
+  def start_link(gcm_config \\ %PushIt.Client.GCM.Config{}) do
     { :ok, _pid } = GenServer.start_link(__MODULE__, gcm_config, [])
   end
 
@@ -19,9 +21,12 @@ defmodule PushIt.Client.GCM do
   end
 
   def handle_cast({:push, push }, gcm_config) do
-    case Phoenix.HTTPClient.request(:post, gcm_config.url, %{}, push) do
-      { :ok, gcm_response } -> PushIt.Client.GCMResponse.handle_response(gcm_response)
-      { :error, msg }       -> Logger.error(msg)
+    internal_push = %__MODULE__{ struct: push, url: gcm_config.url}
+
+    try do
+      PushIt.Client.GCM.Request.call(internal_push) |> PushIt.Client.GCM.Response.handle_response
+    rescue
+      e in HTTPotion.HTTPError -> e |> inspect |> Logger.error
     end
 
     { :noreply, gcm_config}
