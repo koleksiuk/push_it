@@ -36,7 +36,7 @@ defmodule PushIt.Mixfile do
       {:ecto,      "~> 0.7"},
       {:httpotion, "~> 2.0.0"},
       {:ibrowse,   github: "cmullaparthi/ibrowse", tag: "v4.1.1"},
-      {:json,      "~> 0.3.0"},
+      {:json,      "~> 0.3.2"},
       {:mock,      github: "jjh42/mock", env: :test },
       {:phoenix,   "~> 0.8.0"},
       {:poolboy,   "~> 1.4.1"},
