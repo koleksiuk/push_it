@@ -1,6 +1,4 @@
 defmodule PushIt.Client.GCM do
-  defstruct struct: nil, url: nil, api_key: ""
-
   require Logger
   use GenServer
 
@@ -9,8 +7,8 @@ defmodule PushIt.Client.GCM do
     { :ok, _pid } = GenServer.start_link(__MODULE__, gcm_config, [])
   end
 
-  def push(pid, push) do
-    GenServer.cast(pid, { :push, push })
+  def push(pid, push, handler \\ PushIt.Client.GCM.Request) do
+    GenServer.cast(pid, {:push, push, handler})
   end
 
   # Internal
@@ -20,13 +18,14 @@ defmodule PushIt.Client.GCM do
     { :ok, gcm_config }
   end
 
-  def handle_cast({:push, push }, gcm_config) do
+  def handle_cast({:push, push, handler }, gcm_config) do
     internal_push = %PushIt.Client.GCM.Push{ struct: push, url: gcm_config.url}
 
     try do
-      PushIt.Client.GCM.Request.call(internal_push) |> PushIt.Client.GCM.Response.handle_response
+      handler.perform(internal_push)
+      |> PushIt.Client.GCM.Response.handle_response
     rescue
-      e in HTTPotion.HTTPError -> e |> inspect |> Logger.error
+      e in HTTPotion.HTTPError -> Logger.error(inspect(e))
     end
 
     { :noreply, gcm_config}

@@ -1,5 +1,7 @@
 defmodule PushIt.NotifierTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
+
+  import Mock
 
   test "responds with error if tokens array is empty" do
     push = %PushIt.Notifier.Push{platform: :android, tokens: []}
@@ -16,7 +18,15 @@ defmodule PushIt.NotifierTest do
   test "responds with ok if tokens array is not empty" do
     push = %PushIt.Notifier.Push{platform: :android, tokens: ["test"]}
 
-    assert :ok  == PushIt.Notifier.push(push)
+    with_mock PushIt.Notifier.Android, [
+      push: fn(_push) -> nil end
+    ] do
+      assert :ok  == PushIt.Notifier.push(push)
+
+      assert called PushIt.Notifier.Android.push(
+        %PushIt.Notifier.Push{payload: nil, platform: :android, tokens: ["test"], ttl: nil}
+      )
+    end
   end
 
   test "it delegates push to proper push handler" do

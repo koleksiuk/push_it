@@ -3,7 +3,7 @@ defmodule PushIt.Client.GCM.Request do
 
   require Logger
 
-  def call(push) do
+  def perform(push) do
     post(push.url, body: push.struct, headers: [
       Authorization: push.api_key
     ])
