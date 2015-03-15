@@ -1,11 +1,16 @@
-language: erlang
+language: elixir
+elixir:
+  - 1.0.0
+  - 1.0.1
+  - 1.0.2
+  - 1.0.3
 otp_release:
-- 17.0
-before_install:
-- git clone https://github.com/elixir-lang/elixir
-- cd elixir
-- git checkout v1.0.3
-- cd ..
-- make -C elixir
-before_script: "export PATH=`pwd`/elixir/bin:$PATH"
-script: "MIX_ENV=test mix do deps.get, test"
+  - 17.0
+  - 17.1
+  - 17.4
+sudo: false # to use faster container based build environment
+script:
+  - mix test
+after_script:
+  - mix deps.get --only docs
+  - MIX_ENV=docs mix inch.report
