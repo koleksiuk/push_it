@@ -4,7 +4,9 @@ defmodule PushIt.Client.GCM.Request do
   require Logger
 
   def call(push) do
-    post(push.url, body: push.struct)
+    post(push.url, body: push.struct, headers: [
+      Authorization: push.api_key
+    ])
   end
 
   def process_request_body(push_struct) do
@@ -17,5 +19,3 @@ defmodule PushIt.Client.GCM.Request do
     Dict.put(headers, :"content-type", "application/json")
   end
 end
-
-

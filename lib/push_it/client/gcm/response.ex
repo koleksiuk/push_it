@@ -19,7 +19,12 @@ defmodule PushIt.Client.GCM.Response do
   def handle_cast({:handle_response, status, body }, state) when status == 200 do
     { :ok, response } = JSON.decode(body)
 
-    Enum.map(response["results"], fn(resp) -> log_response(resp) end)
+    results = response["results"]
+
+    case response["results"] do
+      results when(is_list(results)) -> results |> Enum.map(fn(resp) -> log_response(resp) end)
+      _ -> Logger.warn "GCM Error: Undefined response: #{inspect(results)}"
+    end
 
     { :noreply, state }
   end

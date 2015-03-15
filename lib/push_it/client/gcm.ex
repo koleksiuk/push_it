@@ -1,5 +1,5 @@
 defmodule PushIt.Client.GCM do
-  defstruct struct: nil, url: nil
+  defstruct struct: nil, url: nil, api_key: ""
 
   require Logger
   use GenServer
@@ -21,7 +21,7 @@ defmodule PushIt.Client.GCM do
   end
 
   def handle_cast({:push, push }, gcm_config) do
-    internal_push = %__MODULE__{ struct: push, url: gcm_config.url}
+    internal_push = %PushIt.Client.GCM.Push{ struct: push, url: gcm_config.url}
 
     try do
       PushIt.Client.GCM.Request.call(internal_push) |> PushIt.Client.GCM.Response.handle_response

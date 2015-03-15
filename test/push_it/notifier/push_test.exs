@@ -5,7 +5,7 @@ defmodule PushIt.Notifier.PushTest do
     p = %PushIt.Notifier.Push{ platform: :android, payload: %{ a: "b" }, tokens: ["test"] }
 
     expected_push = %{
-      "payload" => %{
+      "data" => %{
         "a" => "b"
       },
       "registration_ids" => ["test"]
@@ -20,7 +20,7 @@ defmodule PushIt.Notifier.PushTest do
     p = %PushIt.Notifier.Push{ platform: :android, payload: %{ a: "b" }, tokens: ["test"], ttl: 3600 }
 
     expected_push = %{
-      "payload" => %{
+      "data" => %{
         "a" => "b"
       },
       "time_to_live" => 3600,

@@ -7,6 +7,7 @@ defmodule PushIt.Notifier.Android do
     { :ok, _pid } = GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
+  @spec push(PushIt.Notifier.Push) :: Symbol
   def push(push) do
     GenServer.cast(__MODULE__, { :push, push })
   end
