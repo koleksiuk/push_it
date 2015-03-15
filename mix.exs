@@ -33,6 +33,7 @@ defmodule PushIt.Mixfile do
   defp deps do
     [
       {:cowboy,    "~> 1.0"},
+      {:dialyze,   "~> 0.1.3"},
       {:ecto,      "~> 0.7"},
       {:httpotion, "~> 2.0.0"},
       {:ibrowse,   github: "cmullaparthi/ibrowse", tag: "v4.1.1"},
