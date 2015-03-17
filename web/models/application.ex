@@ -3,6 +3,7 @@ defmodule PushIt.Application do
 
   schema "applications" do
     field :name, :string
+    field :gcm_api_key, :string
     timestamps
   end
 end

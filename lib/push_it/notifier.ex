@@ -7,8 +7,8 @@ defmodule PushIt.Notifier do
     { :ok, _pid } = GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
-  def push(push) do
-    GenServer.call(__MODULE__, { :push, push })
+  def push(push, app) do
+    GenServer.call(__MODULE__, { :push, push, app })
   end
 
   # Internal
@@ -16,17 +16,17 @@ defmodule PushIt.Notifier do
     { :ok, nil }
   end
 
-  def handle_call({ :push, push = %PushIt.Notifier.Push{tokens: []}, }, _from, state) do
+  def handle_call({ :push, push = %PushIt.Notifier.Push{tokens: []}, app }, _from, state) do
     Logger.debug "No tokens passed: #{inspect push}"
     { :reply, { :error, :no_tokens } , state }
   end
 
-  def handle_call({ :push, push = %PushIt.Notifier.Push{platform: platform}, }, _from, state) do
+  def handle_call({ :push, push = %PushIt.Notifier.Push{platform: platform}, app }, _from, state) do
     case fetch_push_handler(platform) do
       { :ok, nil } ->
         { :reply, :ok, state }
       { :ok, handler } ->
-        handler.push(push)
+        handler.push(push, app)
         { :reply, :ok, state }
       error_message = { :error, _message } ->
         { :reply, error_message, state }

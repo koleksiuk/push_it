@@ -34,11 +34,11 @@ defmodule PushIt.Client.GCMTest do
 
     push = %PushIt.Notifier.Push{ platform: :android, tokens: ["test"], payload: %{a: "b"} }
 
-    gcm_push = %PushIt.Client.GCM.Push{ struct: push, url: "test" }
+    gcm_push = %PushIt.Client.GCM.Push{ struct: push, url: "test", api_key: "test" }
 
     { :ok, _handler } = MockHandler.start_link(self)
 
-    PushIt.Client.GCM.push(pid, push, MockHandler)
+    PushIt.Client.GCM.push(pid, push, "test", MockHandler)
 
     assert_receive({ :push_received, ^gcm_push })
   end

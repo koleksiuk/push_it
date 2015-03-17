@@ -7,8 +7,8 @@ defmodule PushIt.Client.GCM do
     { :ok, _pid } = GenServer.start_link(__MODULE__, gcm_config, [])
   end
 
-  def push(pid, push, handler \\ PushIt.Client.GCM.Request) do
-    GenServer.cast(pid, {:push, push, handler})
+  def push(pid, push, api_key, handler \\ PushIt.Client.GCM.Request) do
+    GenServer.cast(pid, {:push, push, api_key, handler})
   end
 
   # Internal
@@ -18,8 +18,12 @@ defmodule PushIt.Client.GCM do
     { :ok, gcm_config }
   end
 
-  def handle_cast({:push, push, handler }, gcm_config) do
-    internal_push = %PushIt.Client.GCM.Push{ struct: push, url: gcm_config.url}
+  def handle_cast({:push, push, api_key, handler }, gcm_config) do
+    internal_push = %PushIt.Client.GCM.Push{
+      struct: push,
+      url: gcm_config.url,
+      api_key: api_key
+    }
 
     try do
       handler.perform(internal_push)

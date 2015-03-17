@@ -7,9 +7,8 @@ defmodule PushIt.Notifier.Android do
     { :ok, _pid } = GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
-  @spec push(PushIt.Notifier.Push) :: Symbol
-  def push(push) do
-    GenServer.cast(__MODULE__, { :push, push })
+  def push(push, %PushIt.Application{ gcm_api_key: api_key }) do
+    GenServer.cast(__MODULE__, { :push, %{ push: push, api_key: api_key } })
   end
 
   # Internal
@@ -17,10 +16,10 @@ defmodule PushIt.Notifier.Android do
     { :ok, nil }
   end
 
-  def handle_cast({ :push, push }, state) do
+  def handle_cast({ :push, %{ push: push, api_key: api_key } }, state) do
     worker = :poolboy.checkout(:gcm_client)
 
-    PushIt.Client.GCM.push(worker, push)
+    PushIt.Client.GCM.push(worker, push, api_key)
 
     :poolboy.checkin(:gcm_client, worker)
 

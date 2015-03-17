@@ -1,5 +1,5 @@
 defmodule PushIt.Notifier.Push do
-  defstruct platform: nil, payload: nil, tokens: [], ttl: nil
+  defstruct platform: nil, payload: nil, message: "", tokens: [], ttl: nil
 end
 
 defimpl String.Chars, for: PushIt.Notifier.Push do

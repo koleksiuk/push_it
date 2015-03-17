@@ -18,6 +18,6 @@ defmodule PushIt.Client.GCM.Request do
   end
 
   defp push_headers(push) do
-    [ Authorization: push.api_key ]
+    [ Authorization: "key=#{push.api_key}" ]
   end
 end
